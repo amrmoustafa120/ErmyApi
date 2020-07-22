@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class UserTypesController extends Controller
 {
+
+    //  /**
+    //  * Create a new controller instance.
+    //  *
+    //  * @return void
+    //  */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+    
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +28,8 @@ class UserTypesController extends Controller
         $types = UserTypes::all();
         // return view('usertypes.index', compact('types'));
         // dd(json_decode($types, true));
-        return view('usertypes.index')->with('types', json_decode($types, true));
+        return $types ;
+        // return view('usertypes.index')->with('types', json_decode($types, true));
     }
 
     /**
