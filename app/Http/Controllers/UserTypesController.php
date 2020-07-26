@@ -8,28 +8,33 @@ use Illuminate\Http\Request;
 class UserTypesController extends Controller
 {
 
-    //  /**
-    //  * Create a new controller instance.
-    //  *
-    //  * @return void
-    //  */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         $types = UserTypes::all();
-        // return view('usertypes.index', compact('types'));
-        // dd(json_decode($types, true));
-        return $types ;
-        // return view('usertypes.index')->with('types', json_decode($types, true));
+
+        if( $request['mobile'] == 1){
+            return json_decode($types, true);
+        }
+        else{
+            return view('usertypes.index')->with('types', json_decode($types, true));
+        }
+        
     }
 
     /**
@@ -57,7 +62,14 @@ class UserTypesController extends Controller
         ]
         );
         $type->savetype($data);
-        return redirect('/usertype')->with('success', 'New type has been created! Wait sometime to get resolved');
+
+
+        if( $request['mobile'] == 1){
+            return response()->json(['success'=>'saved successfully'], 200); 
+        }
+        else{
+            return redirect('/usertype')->with('success', 'New type has been created! Wait sometime to get resolved');
+        }
     
     }
 
@@ -67,7 +79,7 @@ class UserTypesController extends Controller
      * @param  \App\UserTypes  $userTypes
      * @return \Illuminate\Http\Response
      */
-    public function show(UserTypes $userTypes)
+    public function show($id)
     {
         //
     }
@@ -101,8 +113,12 @@ class UserTypesController extends Controller
         $data['id'] = $id;
         $type->updatetype($data);
 
-        return redirect('/usertype')->with('success', 'type has been updated!!');
-    
+        if( $request['mobile'] == 1){
+            return response()->json(['success'=>'updated successfully'], 200); 
+        }
+        else{
+            return redirect('/usertype')->with('success', 'type has been updated!!');
+        }    
     }
 
     /**
@@ -111,12 +127,17 @@ class UserTypesController extends Controller
      * @param  \App\UserTypes  $userTypes
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $type = UserTypes::find($id);
         $type->delete();
 
-        return redirect('/usertype')->with('success', 'type has been deleted!!');
+        if( $request['mobile'] == 1){
+            return response()->json(['success'=>'deleted successfully'], 200); 
+        }
+        else{
+            return redirect('/usertype')->with('success', 'type has been deleted!!');
+        }    
     
     }
 }

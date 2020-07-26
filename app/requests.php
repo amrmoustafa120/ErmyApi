@@ -15,9 +15,9 @@ class requests extends Model
         return $this->belongsTo(User::class, 'worker_id');
     }
 
-    public function states(){
+    public function state(){
 
-        return $this->hasMany(requeststates::class, 'state_id');
+        return $this->hasMany(requestStates::class,'state_id');
     }
 
     public function saverequest($data)

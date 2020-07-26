@@ -7,6 +7,8 @@ use App\UserTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
 {
@@ -83,9 +85,9 @@ class UsersController extends Controller
         );
 
         $user->saveuser($data);
-        $type = UserTypes::find($data['type_id']);
+        // $type = UserTypes::find($data['type_id']);
 
-        $user->type()->save($type);
+        // $user->type()->save($type);
         return redirect('/workers')->with('success', 'New user has been created! Wait sometime to get resolved');
     
     }
@@ -210,6 +212,86 @@ class UsersController extends Controller
             return response()->json(['error'=>'Unauthorised'], 401); 
         } 
 
+    }
+
+    public function adminRoles(){
+
+        Role::create(['name'=>'admin']);
+
+        Permission::create(['name'=>'view dashboard']);
+
+        Permission::create(['name'=>'all user']);
+        Permission::create(['name'=>'show user']);
+        Permission::create(['name'=>'edit user']);
+        Permission::create(['name'=>'add user']);
+        Permission::create(['name'=>'delete user']);
+
+        Permission::create(['name'=>'all usertype']);
+        Permission::create(['name'=>'show usertype']);
+        Permission::create(['name'=>'edit usertype']);
+        Permission::create(['name'=>'add usertype']);
+        Permission::create(['name'=>'delete usertype']);
+
+        Permission::create(['name'=>'all requeststate']);
+        Permission::create(['name'=>'show requeststate']);
+        Permission::create(['name'=>'edit requeststate']);
+        Permission::create(['name'=>'add requeststate']);
+        Permission::create(['name'=>'delete requeststate']);
+
+        Permission::create(['name'=>'all request']);
+        Permission::create(['name'=>'show request']);
+        Permission::create(['name'=>'edit request']);
+        Permission::create(['name'=>'add request']);
+        Permission::create(['name'=>'delete request']);
+
+        Permission::create(['name'=>'all complains']);
+        Permission::create(['name'=>'show complains']);
+        Permission::create(['name'=>'edit complains']);
+        Permission::create(['name'=>'add complains']);
+        Permission::create(['name'=>'delete complains']);
+
+        Permission::create(['name'=>'all contracts']);
+        Permission::create(['name'=>'show contracts']);
+        Permission::create(['name'=>'edit contracts']);
+        Permission::create(['name'=>'add contracts']);
+        Permission::create(['name'=>'delete contracts']);
+
+        $permissions = Permission::all();
+        $role = Role::find(1);
+        $role->syncPermissions($permissions);
+
+        return 'role and permissions added ';
+    }
+
+    public function GiveAdminRoleToUser(){
+        auth()->user()->assignRole('admin');
+        // User::role('admin')->get();
+        // User::permission('edit post')->get();
+       return auth()->user()->getAllPermissions();
+    }
+
+    public function workerroles(){
+
+        // Permission::create(['name'=>'my requests']);
+        Permission::create(['name'=>'show myrequest']);
+        Permission::create(['name'=>'accept request']);
+        Permission::create(['name'=>'cancel request']);
+        Permission::create(['name'=>'rate request']);
+
+        $permissions = Permission::all();
+        // $role = Role::find(3);
+        $role->syncPermissions($permissions);
+
+        return 'role and permissions added ';
+    }
+
+    public function GiveworkerRoleToUser(){
+
+
+        auth()->user()->assignRole('admin');
+        // User::role('admin')->get();
+        // User::permission('edit post')->get();
+       return auth()->user()->getAllPermissions();
     }
 
 }
