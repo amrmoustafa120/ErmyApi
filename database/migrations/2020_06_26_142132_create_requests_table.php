@@ -23,6 +23,7 @@ class CreateRequestsTable extends Migration
             $table->decimal('lat', 10, 7);
             $table->boolean('is_coins_for_user');
             $table->integer('state_id')->unsigned()->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

@@ -24,8 +24,11 @@ Route::post('registerapi', 'UsersController@registerapi');
 Route::post('login', 'UsersController@login');
 
 Route::middleware('auth:api')->group( function () {
-    Route::get('/usertype', 'UserTypesController@index');
+    Route::post('/usertype', 'UserTypesController@index');
     Route::post('/create/usertype','UserTypesController@store');
     Route::post('/update/usertype/{id}','UserTypesController@update');
-    Route::delete('/delete/usertype/{id}','UserTypesController@destroy');
+    Route::post ('/delete/usertype/{id}','UserTypesController@destroy');
+
+    Route::post('/userrequests', 'RequestsController@userrequests');
+    Route::post('/userstore', 'RequestsController@userstore');
 });

@@ -114,17 +114,17 @@
 								</a>
 
 
-								<a class="dropdown-item has-icon" href=""  method="post">
+								{{-- <a class="dropdown-item has-icon" href=""  method="post">
 										<i class="ion-ios-redo"></i>
 										logout
-                                    </a>
-									{{-- <form method="post" action="{{ route('logout') }}">
+                                    </a> --}}
+									<form method="post" action="{{ route('logout') }}">
 									@csrf
 									<button type="submit" class="dropdown-item has-icon">
 									<i class="ion-ios-redo"></i>
 									logout
 									</button>
-									</form> --}}
+									</form>
 							
 							</div>
 						</li>
@@ -136,13 +136,29 @@
 							<a class="nav-link pl-2 pr-2 leading-none d-flex" data-toggle="dropdown" href="#">
 								<img alt="image" src="{{asset('frontend/img/avatar/avatar-1.jpg')}}" class=" avatar-md rounded-circle">
 								<span class="ml-2 d-lg-block">
-									<span class=" app-sidebar__user-name mt-5">Jessica Lee</span><br>
-									<span class="text-muted app-sidebar__user-name text-sm"> Web-Designer</span>
+									<span class=" app-sidebar__user-name mt-5">{{ Auth::user()->name }}</span><br>
+									<span class="text-muted app-sidebar__user-name text-sm"> {{Auth::user()->hasRole('admin') ? 'admin':'worker'}}</span>
 								</span>
 							</a>
 						</div>
 					</div>
 					<ul class="side-menu">
+
+
+				@role('worker')
+					<li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fa fa-home"></i><span class="side-menu__label">My Requests</span><i class="angle fa fa-angle-right"></i></a>
+							<ul class="slide-menu">
+								<li><a href="{{url('/indeviduals')}}" class="slide-item">All Requests</a></li>
+								<li><a href="{{url('/workers')}}" class="slide-item">Pending Requests</a></li>
+								<li><a href="{{url('/operations')}}" class="slide-item">Done Requests</a></li>
+							</ul>
+					</li>
+				@endrole
+
+
+
+					@role('admin')
 						<li class="slide">
 							<a class="side-menu__item"  data-toggle="slide" href="#"><i class="side-menu__icon fa fa-desktop"></i><span class="side-menu__label">Dashboard</span><i class="angle fa fa-angle-right"></i></a>
 							{{-- <ul class="slide-menu">
@@ -157,30 +173,29 @@
 						<li class="slide">
 							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fa fa-home"></i><span class="side-menu__label">Users</span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
-								<li><a href="{{url('/cspaces')}}" class="slide-item">Users</a></li>
-								<li><a href="{{url('/create/cspace')}}" class="slide-item">Wokers</a></li>
-								<li><a href="{{url('/create/cspace')}}" class="slide-item">Operations</a></li>
+								<li><a href="{{url('/indeviduals')}}" class="slide-item">Users</a></li>
+								<li><a href="{{url('/workers')}}" class="slide-item">Wokers</a></li>
+								<li><a href="{{url('/operations')}}" class="slide-item">Operations</a></li>
 							</ul>
 						</li>
 						<li class="slide">
 							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fa fa-tasks"></i><span class="side-menu__label">Users Types</span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
-								<li><a href="{{url('/market')}}" class="slide-item">External Types</a></li>
-								<li><a href="{{url('/create/market')}}" class="slide-item">Inernal Types</a></li>
+								<li><a href="{{url('/usertype')}}" class="slide-item">External Types</a></li>
 							</ul>
 						</li>
 						<li class="slide">
 						    <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fa fa-paw"></i><span class="side-menu__label">Requests</span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
-								<li><a href="{{url('/branches')}}" class="slide-item">All Requests</a></li>
+								<li><a href="{{url('/request')}}" class="slide-item">All Requests</a></li>
 								<li><a href="{{url('/create/branch')}}" class="slide-item">Pending Requests</a></li>
-								<li><a href="{{url('/create/branch')}}" class="slide-item">Roday Finished Requests</a></li>	
+								<li><a href="{{url('/create/branch')}}" class="slide-item">Today Finished Requests</a></li>	
 							</ul>
 						</li>
 						<li class="slide">
 						    <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fa fa-paw"></i><span class="side-menu__label">Requests States</span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
-								<li><a href="{{url('/branches')}}" class="slide-item">All States</a></li>
+								<li><a href="{{url('/requests-state')}}" class="slide-item">All States</a></li>
 							</ul>
 						</li>
 						<li class="slide">
@@ -209,6 +224,7 @@
 								<li><a href="{{url('/othercharts')}}" class="slide-item"> Other Charts</a></li>
 							</ul>
 						</li>
+						@endrole
 						
 					</ul>
 				</aside>

@@ -11,13 +11,14 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/laravel', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'frontendController@index');
 
 
 ////// usertypes routes /////
@@ -38,15 +39,38 @@ Route::get('/operations', 'UsersController@indexoperation');
 Route::post('/update/user/{id}','UsersController@update');
 Route::get('/edit/user/{id}','UsersController@edit');
 Route::delete('/delete/user/{id}','UsersController@destroy');
+
+Route::get('/createadminroles','UsersController@adminRoles');
+Route::get('/GiveAdminRoleToUser','UsersController@GiveAdminRoleToUser');
+
+
+Route::get('/workerroles','UsersController@workerroles');
+Route::get('/GiveworkerRoleToUser','UsersController@GiveworkerRoleToUser');
+
+
 /////////////////////////
 
 ////// requests routes /////
 Route::get('/create/request','RequestsController@create');
 Route::post('/create/request','RequestsController@store');
 Route::get('/request', 'RequestsController@index');
+
+Route::post('/userrequests', 'RequestsController@userrequests');
+Route::post('/userstore', 'RequestsController@userstore');
+
+Route::post('/cancelrequest/{id}', 'RequestsController@cancelrequest');
+Route::post('/acceptrequest/{id}', 'RequestsController@acceptrequest');
+Route::post('/savecoins', 'RequestsController@savecoins');
+
+Route::get('/workerrequests', 'RequestsController@workerrequests');
+
 Route::post('/update/request/{id}','RequestsController@update');
 Route::get('/edit/request/{id}','RequestsController@edit');
 Route::delete('/delete/request/{id}','RequestsController@destroy');
+
+Route::get('/create-request','RequestsController@userrequestview');
+Route::get('/my-requests','RequestsController@userrequests');
+Route::get('/show/{id}','RequestsController@show');
 /////////////////////////
 
 ////// requests states routes /////
